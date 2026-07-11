@@ -1,0 +1,53 @@
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Vote pour le Défi des Cantons - Erreur</title>
+    <link
+      href="{{ url_for('static', path='/css/pico.red.min.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', path='/css/site.css') }}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <img
+        class="logo"
+        src="{{ url_for('static', path='/img/apero-escape.svg') }}"
+        alt="Logo"
+      />
+    </header>
+    <main class="container">
+      <h1>Défi des cantons - Erreur</h1>
+      {% if api_error %}
+      <p>
+        Votre vote n'a pas pu être enregistré. Veuillez réessayer plus tard ou
+        contacter l'administrateur du site si le problème persiste.
+      </p>
+      {% elif api_response.error_code == 3 %}
+      <p>
+        Votre vote a déjà été enregistré. Vous ne pouvez voter qu'une seule fois
+        par code.
+      </p>
+      {% elif api_response.error_code == 1 or api_response.error_code == 2 %}
+      <p>
+        Votre code est invalide. Veuillez vérifier que vous avez saisi le code
+        correctement et réessayer.
+      </p>
+      {%else%}
+      <pre> {{ api_response.error_code}}</pre>
+      <pre>{{ api_response | tojson(indent=2) }}</pre>
+      {% endif %}
+
+      <p>
+        <a href="https://housetrap.github.io/dc-demo/"
+          >Résultats de tous les cantons</a
+        >
+      </p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cantons-challenge-collector"
+version = "0.1.0"
+description = "Ticket Collector For Cantons Challenge"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dotenv>=0.9.9",
+    "fastapi[standard]>=0.137.2",
+    "httpx>=0.28.1",
+    "hypercorn>=0.18.0",
+    "loguru>=0.7.3",
+    "pydantic>=2.13.4",
+    "skippy>=0.1.0",
+]
+
+[tool.uv]
+package = true
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["cantons_challenge_collector*"]
+
+[dependency-groups]
+dev = ["pyright>=1.1.410"]
