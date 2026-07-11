@@ -9,6 +9,13 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
+@app.get("/health", response_class=HTMLResponse)
+async def health():
+    return HTMLResponse(
+        content="<h1>Health Check</h1><p>The application is running.</p>"
+    )
+
+
 @app.get("/vote/{code}", response_class=HTMLResponse)
 async def vote(request: Request, code: str):
     api_url = f"https://api.aperoescape.ch/dc/v1/vote/{code}"
