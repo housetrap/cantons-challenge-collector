@@ -1,9 +1,10 @@
-<html lang="fr">
+<!doctype html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
-    <title>Vote pour le Défi des Cantons</title>
+    <title>Vote pour le Défi des Cantons - Erreur</title>
     <link
       href="{{ url_for('static', path='/css/pico.red.min.css') }}"
       rel="stylesheet"
@@ -12,6 +13,12 @@
       href="{{ url_for('static', path='/css/site.css') }}"
       rel="stylesheet"
     />
+
+    <!-- Dev: load source entry so Vite HMR can update without restarting -->
+    <script
+      type="module"
+      src="https://dc-ranking.aperoescape.ch/ht-ae-dc-ranking.js"
+    ></script>
   </head>
   <body>
     <header>
@@ -22,18 +29,9 @@
       />
     </header>
     <main class="container">
-      <h1>Défi des cantons - Vote Accepté</h1>
-
-      <p>
-        Votre vote a été enregistré avec succès. Merci pour votre participation
-        !
-      </p>
-      <p>Vous avez voté pour le canton {{ api_response.canton }}</p>
-      <p>Votre canton a maintenant {{ api_response.new_counter }} votes</p>
-
-      <p>
-        <a href="{{ url_for('index') }}">Résultats de tous les cantons</a>
-      </p>
+      <h1>Vote des cantons</h1>
+      <!-- 2. Display your custom element instantly -->
+      <apero-escape-chart cantons="FR,VD,VS,GE"></apero-escape-chart>
     </main>
   </body>
 </html>

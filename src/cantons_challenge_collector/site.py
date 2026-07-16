@@ -5,8 +5,18 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
+
+
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html",
+        context={"request": request},
+    )
 
 
 @app.get("/health", response_class=HTMLResponse)
@@ -50,6 +60,46 @@ async def vote(request: Request, code: str):
         name=template_name,
         context={
             "code": code,
+            "api_url": api_url,
+            "api_response": api_response,
+            "api_error": api_error,
+        },
+    )
+
+
+@app.get("/test-ok", response_class=HTMLResponse)
+async def test_ok(request: Request):
+    api_url = "https://api.aperoescape.ch/dc/v1/vote/OK"
+    api_response = {"message": "This is a test OK response."}
+    api_error = None
+
+    template_name = "result_ok.html"
+
+    return templates.TemplateResponse(
+        request=request,
+        name=template_name,
+        context={
+            "code": "OK",
+            "api_url": api_url,
+            "api_response": api_response,
+            "api_error": api_error,
+        },
+    )
+
+
+@app.get("/test-error", response_class=HTMLResponse)
+async def test_error(request: Request):
+    api_url = "https://api.aperoescape.ch/dc/v1/vote/ERROR"
+    api_response = None
+    api_error = "This is a test error response."
+
+    template_name = "result_error.html"
+
+    return templates.TemplateResponse(
+        request=request,
+        name=template_name,
+        context={
+            "code": "ERROR",
             "api_url": api_url,
             "api_response": api_response,
             "api_error": api_error,
