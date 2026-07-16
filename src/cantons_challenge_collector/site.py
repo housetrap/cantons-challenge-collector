@@ -1,10 +1,20 @@
+import os
+
 import httpx
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
 app = FastAPI()
+
+# Trust proxy forwarding headers (X-Forwarded-Proto/Forwarded) so generated URLs
+# keep the original HTTPS scheme when the app is behind a reverse proxy.
+app.add_middleware(
+    ProxyHeadersMiddleware,
+    trusted_hosts=os.getenv("TRUSTED_PROXY_IPS", "*").split(","),
+)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
