@@ -9,4 +9,4 @@ COPY templates/ /app/templates/
 COPY static/ /app/static/
 RUN uv sync --frozen --no-install-project
 
-CMD ["sh", "-c", "uv run --no-sync hypercorn cantons_challenge_collector.site:app --insecure-bind [::]:${PORT:-3000}"]
+CMD ["sh", "-c", "uv run --no-sync hypercorn cantons_challenge_collector.site:app --bind [::]:${PORT:-3000}"]
